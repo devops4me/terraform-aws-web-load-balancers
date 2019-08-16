@@ -4,14 +4,14 @@
 ################ ################################################ ########
 
 
-### ############################# ###
-### [[variable]] in_service_names ###
-### ############################# ###
+### ################################# ###
+### [[variable]] in_service_protocols ###
+### ################################# ###
 
-variable in_service_names {
+variable in_service_protocols {
 
-    description = "The list of known service names whose ports and descriptions are mapped in the traffic lookup."
-    type        = "list"
+    description = "The list of service protocols whose ports and descriptions are mapped in the traffic lookup."
+    type        = list
 }
 
 
@@ -22,7 +22,7 @@ variable in_service_names {
 variable in_health_check_uris {
 
     description = "The path without the leading forward slash used by the load balancer to assess service health."
-    type        = "list"
+    type        = list
 }
 
 
@@ -33,7 +33,7 @@ variable in_health_check_uris {
 variable in_dns_names {
 
     description = "The load balancer looks up TLS (Certificate Manager) certs based on these Route53 DNS names."
-    type        = "list"
+    type        = list
 }
 
 
@@ -43,6 +43,7 @@ variable in_dns_names {
 
 variable in_vpc_id {
     description = "The ID of the VPC (Virtual Private Cloud)  that this load balancer will be created in."
+    type        = string
 }
 
 
@@ -63,6 +64,18 @@ variable in_security_group_ids {
 variable in_subnet_ids {
     description = "IDs of subnets the network interfaces are attached to."
     type = "list"
+}
+
+
+### ############################## ###
+### [[variable]] in_mandatory_tags ###
+### ############################## ###
+
+variable in_mandatory_tags {
+
+    description = "Optional tags unless your organization mandates that a set of given tags must be set."
+    type        = map
+    default     = { }
 }
 
 

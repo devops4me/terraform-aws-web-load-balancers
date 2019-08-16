@@ -15,9 +15,9 @@
 */
 resource aws_alb alb {
 
-    count = length( var.in_service_names )
+    count = length( var.in_service_protocols )
 
-    name               = "${ element( var.traffic[ var.in_service_names[ count.index ] ], 3 ) }-${ var.in_ecosystem_name }-${ var.in_tag_timestamp }"
+    name               = "${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_ecosystem_name }-${ var.in_tag_timestamp }"
     security_groups    = var.in_security_group_ids
     subnets            = var.in_subnet_ids
     internal           = false
@@ -27,13 +27,8 @@ resource aws_alb alb {
 
     enable_deletion_protection = false
 
-    tags = {
+    tags = merge( { Name = "load-balancer-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_ecosystem_name }-${ var.in_tag_timestamp }", Desc = "This ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } external load balancer for ${ var.in_ecosystem_name } ${ var.in_tag_description }" }, var.in_mandatory_tags )
 
-        Name = "load-balancer-${ element( var.traffic[ var.in_service_names[ count.index ] ], 3 ) }-${ var.in_ecosystem_name }-${ var.in_tag_timestamp }"
-        Class = var.in_ecosystem_name
-        Instance = "${ var.in_ecosystem_name }-${ var.in_tag_timestamp }"
-        Desc   = "This ${ element( var.traffic[ var.in_service_names[ count.index ] ], 2 ) } external load balancer for ${ var.in_ecosystem_name } ${ var.in_tag_description }"
-    }
 
 }
 
@@ -50,7 +45,7 @@ resource aws_alb alb {
 */
 resource aws_alb_listener https {
 
-    count = length( var.in_service_names )
+    count = length( var.in_service_protocols )
 
     load_balancer_arn = element( aws_alb.alb.*.id, count.index )
     protocol          = "HTTPS"
@@ -77,7 +72,7 @@ resource aws_alb_listener https {
 */
 resource aws_alb_listener http {
 
-    count = length( var.in_service_names )
+    count = length( var.in_service_protocols )
 
     load_balancer_arn = element( aws_alb.alb.*.id, count.index )
     protocol          = "HTTP"
@@ -110,12 +105,12 @@ resource aws_alb_listener http {
 */
 resource aws_alb_target_group alb_targets {
 
-    count = length( var.in_service_names )
+    count = length( var.in_service_protocols )
 
     vpc_id      = var.in_vpc_id
-    name        = "${ var.in_ecosystem_name }-${ element( var.traffic[ var.in_service_names[ count.index ] ], 3 ) }-${ var.in_tag_timestamp }"
-    protocol    = element( var.traffic[ var.in_service_names[ count.index ] ], 0 )
-    port        = element( var.traffic[ var.in_service_names[ count.index ] ], 1 )
+    name        = "${ var.in_ecosystem_name }-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_tag_timestamp }"
+    protocol    = element( var.traffic[ var.in_service_protocols[ count.index ] ], 0 )
+    port        = element( var.traffic[ var.in_service_protocols[ count.index ] ], 1 )
     target_type = "instance"
 
     health_check {
@@ -125,15 +120,15 @@ resource aws_alb_target_group alb_targets {
         timeout             = 10
         path                = "/${ var.in_health_check_uris[ count.index ] }"
         interval            = 60
-        matcher             = "200,201,202,304"
+        matcher             = "200"
     }
 
     tags = {
 
-        Name   = "${ var.in_ecosystem_name }-${ element( var.traffic[ var.in_service_names[ count.index ] ], 3 ) }-traffic-${ var.in_tag_timestamp }-${ count.index }"
+        Name   = "${ var.in_ecosystem_name }-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-traffic-${ var.in_tag_timestamp }-${ count.index }"
         Class = var.in_ecosystem_name
         Instance = "${ var.in_ecosystem_name }-${ var.in_tag_timestamp }"
-        Desc   = "This load balancer backend targeting ${ element( var.traffic[ var.in_service_names[ count.index ] ], 2 ) } traffic for ${ var.in_ecosystem_name } ${ var.in_tag_description }"
+        Desc   = "This load balancer backend targeting ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } traffic for ${ var.in_ecosystem_name } ${ var.in_tag_description }"
     }
 
 }
