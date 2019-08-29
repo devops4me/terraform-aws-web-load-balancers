@@ -79,28 +79,32 @@ variable in_mandatory_tags {
 }
 
 
-### ################# ###
-### in_ecosystem_name ###
-### ################# ###
+### ############ ###
+### in_ecosystem ###
+### ############ ###
 
-variable in_ecosystem_name {
-    description = "Creational stamp binding all infrastructure components created on behalf of this ecosystem instance."
+variable in_ecosystem {
+    description = "The name of the ecosystem (environment superclass) being created or changed."
+    default = "ecosystem"
+    type = string
 }
 
 
-### ################ ###
-### in_tag_timestamp ###
-### ################ ###
+### ############ ###
+### in_timestamp ###
+### ############ ###
 
-variable in_tag_timestamp {
-    description = "A timestamp for resource tags in the format ymmdd-hhmm like 80911-1435"
+variable in_timestamp {
+    description = "The numerical timestamp denoting the time this eco instance was instantiated."
+    type = string
 }
 
 
-### ################## ###
-### in_tag_description ###
-### ################## ###
+### ############## ###
+### in_description ###
+### ############## ###
 
-variable in_tag_description {
-    description = "Ubiquitous note detailing who, when, where and why for every infrastructure component."
+variable in_description {
+    description = "The when and where description of this ecosystem creation."
+    type = string
 }

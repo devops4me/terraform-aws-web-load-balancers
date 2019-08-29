@@ -17,7 +17,7 @@ resource aws_alb alb {
 
     count = length( var.in_service_protocols )
 
-    name               = "${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_ecosystem_name }-${ var.in_tag_timestamp }"
+    name               = "${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_ecosystem }-${ var.in_timestamp }"
     security_groups    = var.in_security_group_ids
     subnets            = var.in_subnet_ids
     internal           = false
@@ -27,8 +27,13 @@ resource aws_alb alb {
 
     enable_deletion_protection = false
 
-    tags = merge( { Name = "load-balancer-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_ecosystem_name }-${ var.in_tag_timestamp }", Desc = "This ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } external load balancer for ${ var.in_ecosystem_name } ${ var.in_tag_description }" }, var.in_mandatory_tags )
-
+    tags = merge(
+        {
+            Name = "load-balancer-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_ecosystem }-${ var.in_timestamp }"
+            Desc = "This ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } external load balancer for ${ var.in_ecosystem } ${ var.in_description }"
+        },
+        var.in_mandatory_tags
+    )
 
 }
 
@@ -108,7 +113,7 @@ resource aws_alb_target_group alb_targets {
     count = length( var.in_service_protocols )
 
     vpc_id      = var.in_vpc_id
-    name        = "${ var.in_ecosystem_name }-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_tag_timestamp }"
+    name        = "${ var.in_ecosystem }-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_timestamp }"
     protocol    = element( var.traffic[ var.in_service_protocols[ count.index ] ], 0 )
     port        = element( var.traffic[ var.in_service_protocols[ count.index ] ], 1 )
     target_type = "instance"
@@ -123,13 +128,14 @@ resource aws_alb_target_group alb_targets {
         matcher             = "200"
     }
 
-    tags = {
 
-        Name   = "${ var.in_ecosystem_name }-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-traffic-${ var.in_tag_timestamp }-${ count.index }"
-        Class = var.in_ecosystem_name
-        Instance = "${ var.in_ecosystem_name }-${ var.in_tag_timestamp }"
-        Desc   = "This load balancer backend targeting ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } traffic for ${ var.in_ecosystem_name } ${ var.in_tag_description }"
-    }
+    tags = merge(
+        {
+            Name = "${ var.in_ecosystem }-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-traffic-${ var.in_timestamp }-${ count.index }"
+            Desc = "This load balancer backend targeting ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } traffic for ${ var.in_ecosystem } ${ var.in_description }"
+        },
+        var.in_mandatory_tags
+    )
 
 }
 
