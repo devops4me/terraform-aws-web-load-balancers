@@ -32,7 +32,7 @@ resource aws_alb alb {
             Name = "load-balancer-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-${ var.in_ecosystem }-${ var.in_timestamp }"
             Desc = "This ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } external load balancer for ${ var.in_ecosystem } ${ var.in_description }"
         },
-        var.in_mandatory_tags
+        var.in_mandated_tags
     )
 
 }
@@ -134,7 +134,7 @@ resource aws_alb_target_group alb_targets {
             Name = "${ var.in_ecosystem }-${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 3 ) }-traffic-${ var.in_timestamp }-${ count.index }"
             Desc = "This load balancer backend targeting ${ element( var.traffic[ var.in_service_protocols[ count.index ] ], 2 ) } traffic for ${ var.in_ecosystem } ${ var.in_description }"
         },
-        var.in_mandatory_tags
+        var.in_mandated_tags
     )
 
 }
