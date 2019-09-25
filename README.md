@@ -38,20 +38,22 @@ In order to create a load balancer you need security groups, subnets and you mus
 For internet accessible load balancers you must ensure that the VPC (parent of the subnets) **has an internet gateway** and **a route** to some kind of destination (the most open being 0.0.0.0/0).
 
 
-| Input Variable | Type | Notes - Description |
+| Input Variable | Type | Description         |
 |:-------------- |:----:|:------------------- |
-| **in_vpc_id** | String | The ID of the VPC containing all the back-end targets, subnets and security groups to route to. |
-| **in_security_group_id** | String | The security group must be configured to permit the type of traffic the load balancer is routing. A **504 Gateway Time-out** error from your browser means a missing **security group rule** is blocking the traffic. |
-| **in_subnet_ids** | List | Use public subnets for an externally accessible front-end even when the back-end targets are in private subnets. Use private subnets for internal load balancers. The IDs of the subnets that traffic will be routed to. **Important - traffic will not be routed to two or more subnets in the same availability zone.** |
-| **in_is_internal** | Boolean | If true the load balancer's DNS name is private - if false the DNS name will be externally addressable. |
-| **in_ip_addresses** | List | List of **private or public IP addresses** that the **load balancer's back-end** will route traffic to. If **internal [ in_is_internal = true ]**, then only private IP addresses **inside private subnets*** can be specified. |
-| **in_ssl_certificate_id** | String | The ID of the SSL certificate living in the ACM (Amazon Certificate Manager) repository. |
-| **in_front_end** | List | List of front end listener configurations for this load balancer like web (for http port 80) and ssl (for https port 443).  |
-| **in_back_end** | List | List of back end target configuration for this load balancer **like etcd (for http port 2379)**, web (for http port 80) and ssl (for https port 443). |
-| **in_access_logs_bucket** | String | The **name of the S3 bucket** to which the load balancer will post access logs. |
-| **in_ecosystem** | String | the class name of the ecosystem being built here. |
+| **`in_vpc_id`** | string | The ID of the VPC containing all the back-end targets, subnets and security groups to route to. |
+| **`in_security_group_id`** | string | The security group must be configured to permit the type of traffic the load balancer is routing. A **504 Gateway Time-out** error from your browser means a missing **security group rule** is blocking the traffic. |
+| **`in_subnet_ids`** | List | Use public subnets for an externally accessible front-end even when the back-end targets are in private subnets. Use private subnets for internal load balancers. The IDs of the subnets that traffic will be routed to. **Important - traffic will not be routed to two or more subnets in the same availability zone.** |
+| **`in_is_internal`** | Boolean | If true the load balancer's DNS name is private - if false the DNS name will be externally addressable. |
+| **`in_ip_addresses`** | List | List of **private or public IP addresses** that the **load balancer's back-end** will route traffic to. If **internal [ in_is_internal = true ]**, then only private IP addresses **inside private subnets*** can be specified. |
+| **`in_ssl_certificate_id`** | string | The ID of the SSL certificate living in the ACM (Amazon Certificate Manager) repository. |
+| **`in_front_end`** | List | List of front end listener configurations for this load balancer like web (for http port 80) and ssl (for https port 443).  |
+| **`in_back_end`** | List | List of back end target configuration for this load balancer **like etcd (for http port 2379)**, web (for http port 80) and ssl (for https port 443). |
+| **`in_access_logs_bucket`** | string | The **name of the S3 bucket** to which the load balancer will post access logs. |
+| **`in_ecosystem`** | string | the class name of the ecosystem being built here. |
+
 
 ---
+
 
 ## output variables
 
@@ -59,11 +61,11 @@ Here are the most popular **output variables** exported from this VPC and subnet
 
 | Exported | Type | Example | Comment |
 |:-------- |:---- |:------- |:------- |
-**out_vpc_id** | String | vpc-1234567890 | the **VPC id** of the just-created VPC
-**out_rtb_id** | String | "rtb-2468013579" | ID of the VPC's default route table
-**out_subnet_ids** | List of Strings | [ "subnet-545123498798345", "subnet-83507325124987" ] | list of **all private and public** subnet ids
-**out_private_subnet_ids** | List of Strings | [ "subnet-545123498798345", "subnet-83507325124987" ] | list of **private** subnet ids
-**out_public_subnet_ids** | List of Strings |  [ "subnet-945873408204034", "subnet-8940202943031" ] | list of **public** subnet ids
+| **`out_vpc_id`** | string | vpc-1234567890 | the **VPC id** of the just-created VPC
+| **`out_rtb_id`** | string | "rtb-2468013579" | ID of the VPC's default route table
+| **`out_subnet_ids`** | List of strings | [ "subnet-545123498798345", "subnet-83507325124987" ] | list of **all private and public** subnet ids
+| **`out_private_subnet_ids`** | list( string ) | [ "subnet-545123498798345", "subnet-83507325124987" ] | list of **private** subnet ids
+| **`out_public_subnet_ids`** | list( string ) |  [ "subnet-945873408204034", "subnet-8940202943031" ] | list of **public** subnet ids
 
 
 ---
