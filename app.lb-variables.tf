@@ -1,12 +1,7 @@
 
-################ ################################################ ########
-################ Module [[[load balancers]]] Input Variables List ########
-################ ################################################ ########
-
-
-### ################################# ###
-### [[variable]] in_service_protocols ###
-### ################################# ###
+### #################### ###
+### in_service_protocols ###
+### #################### ###
 
 variable in_service_protocols {
 
@@ -15,9 +10,9 @@ variable in_service_protocols {
 }
 
 
-### ################################# ###
-### [[variable]] in_health_check_uris ###
-### ################################# ###
+### #################### ###
+### in_health_check_uris ###
+### #################### ###
 
 variable in_health_check_uris {
 
@@ -26,9 +21,9 @@ variable in_health_check_uris {
 }
 
 
-### ######################### ###
-### [[variable]] in_dns_names ###
-### ######################### ###
+### ############ ###
+### in_dns_names ###
+### ############ ###
 
 variable in_dns_names {
 
@@ -37,9 +32,9 @@ variable in_dns_names {
 }
 
 
-### ###################### ###
-### [[variable]] in_vpc_id ###
-### ###################### ###
+### ######### ###
+### in_vpc_id ###
+### ######### ###
 
 variable in_vpc_id {
     description = "The ID of the VPC (Virtual Private Cloud)  that this load balancer will be created in."
@@ -47,29 +42,29 @@ variable in_vpc_id {
 }
 
 
-### ################################## ###
-### [[variable]] in_security_group_ids ###
-### ################################## ###
+### ##################### ###
+### in_security_group_ids ###
+### ##################### ###
 
 variable in_security_group_ids {
     description = "ID of security group that constrains the flow of load balancer traffic."
-    type        = "list"
+    type        = list
 }
 
 
-### ########################## ###
-### [[variable]] in_subnet_ids ###
-### ########################## ###
+### ############# ###
+### in_subnet_ids ###
+### ############# ###
 
 variable in_subnet_ids {
     description = "IDs of subnets the network interfaces are attached to."
-    type = "list"
+    type = list
 }
 
 
-### ############################## ###
-### [[variable]] in_mandated_tags ###
-### ############################## ###
+### ################ ###
+### in_mandated_tags ###
+### ################ ###
 
 variable in_mandated_tags {
 
