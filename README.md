@@ -31,7 +31,7 @@ This load balancer assumes the existence of a domain name (or names) and corresp
     output dns_name{ value = "${ module.load-balancer.out_dns_name}" }
 
 
-## Module Inputs
+## module inputs
 
 In order to create a load balancer you need security groups, subnets and you must specify whether it can be accessible on the internet, rather than just internally.
 
